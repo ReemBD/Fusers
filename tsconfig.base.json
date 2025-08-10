@@ -19,7 +19,7 @@
       "@env/*": ["apps/fmr-fusers/src/environments/*"],
       "@fusers/core/api-types": ["libs/core/api-types/src/index.ts"],
       "@fusers/core/data-access": ["libs/core/data-access/src/index.ts"],
-      "@fusers/users/data-access": ["libs/users/users-data-access/src/index.ts"],
+      "@fusers/users/data-access": ["libs/users/data-access/src/index.ts"],
       "@fusers/core/http-client": ["libs/core/http-client/src/index.ts"],
       "@fusers/users/users": ["libs/users/users-feature/src/index.ts"],
       "@fusers/*": ["libs/*"]
