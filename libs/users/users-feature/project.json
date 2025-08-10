@@ -1,0 +1,13 @@
+{
+  "name": "fmr-fusers-users-feature",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/users/users-feature/src",
+  "prefix": "fusers",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

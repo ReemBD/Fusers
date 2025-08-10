@@ -19,6 +19,7 @@
       "@env/*": ["apps/fmr-fusers/src/environments/*"],
       "@fusers/*": ["libs/*"],
       "@fusers/core/http-client": ["libs/core/http-client/src/index.ts"],
+      "@fusers/users/users": ["libs/users/users-feature/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]
