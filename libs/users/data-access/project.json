@@ -1,0 +1,13 @@
+{
+  "name": "fmr-fusers-users-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/users/users-data-access/src",
+  "prefix": "fusers",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
