@@ -10,11 +10,28 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {}
   },
-  "exclude": ["node_modules", "tmp"]
+  "paths": {
+    "@default/*": [
+      "apps/fmr-fusers/src/app/*"
+    ],
+    "@env/*": [
+      "apps/fmr-fusers/src/environments/*"
+    ],
+    "@fusers/*": [
+      "libs/*"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

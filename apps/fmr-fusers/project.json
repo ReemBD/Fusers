@@ -2,7 +2,7 @@
   "name": "fmr-fusers",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
+  "prefix": "fusers",
   "sourceRoot": "apps/fmr-fusers/src",
   "tags": [],
   "targets": {
