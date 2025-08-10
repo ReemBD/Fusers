@@ -22,6 +22,7 @@ import { EVENT_TYPES, EventBusService } from '@fusers/core/event-bus';
 export class UsersComponent implements OnInit, OnDestroy {
   
   private readonly store = inject(UsersStore);
+  private readonly eventBus = inject(EventBusService);
   
   private readonly destroy$ = new Subject<void>();
 
@@ -29,11 +30,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   readonly isLoading = this.store.loadUsersLoading;
   readonly selectedUserId = this.store.selectedUserId;
 
+  readonly addModalShown = signal(false);
+
   readonly selectedUser = computed(() => this.store.userEntities().find(user => user.id === this.selectedUserId()));
   
-  readonly eventBus = inject(EventBusService);
-  
-  readonly addModalShown = signal(false);
 
   ngOnInit(): void {
     this.store.loadUsers();
