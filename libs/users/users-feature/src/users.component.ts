@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 
 import { User } from '@fusers/core/api-types';
 import { UsersStore } from '@fusers/users/data-access';
@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
 
   readonly selectedUser = computed(() => this.store.userEntities().find(user => user.id === this.selectedUserId()));
   
-  showAdd = signal(false);
+  readonly showAdd = signal(false);
   
   ngOnInit(): void {
     this.store.loadUsers();

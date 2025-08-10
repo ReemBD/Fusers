@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -13,7 +13,8 @@ import { User } from '@fusers/core/api-types';
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
     templateUrl: './user-edit-form.component.html',
-    styleUrls: ['./user-edit-form.component.css']
+    styleUrls: ['./user-edit-form.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserEditFormComponent {
     private readonly fb = inject(FormBuilder).nonNullable;

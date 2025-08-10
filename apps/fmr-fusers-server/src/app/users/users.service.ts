@@ -58,7 +58,6 @@ const users: User[] = [
 @Injectable()
 export class UsersService {
   getUsers() {
-    console.log('getUsers');
     return users;
   }
 

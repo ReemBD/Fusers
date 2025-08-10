@@ -2,11 +2,10 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { of, switchMap } from 'rxjs';
 
 import { UserService, UsersStore } from '@fusers/users/data-access';
 
-import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
-import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'fusers-user-orders',
