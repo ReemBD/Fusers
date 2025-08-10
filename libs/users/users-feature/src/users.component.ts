@@ -4,6 +4,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { User } from '@fusers/core/api-types';
 import { UsersStore } from '@fusers/users/data-access';
 
+import { MatIconModule } from '@angular/material/icon';
+
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserOrdersComponent } from './user-orders/user-orders.component';
 
@@ -13,7 +15,7 @@ import { EVENT_TYPES, EventBusService } from '@fusers/core/event-bus';
 @Component({
   selector: 'fusers-users',
   standalone: true,
-  imports: [UsersListComponent, UserOrdersComponent, UserEditFormComponent],
+  imports: [UsersListComponent, UserOrdersComponent, UserEditFormComponent, MatIconModule],
   templateUrl: './users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
