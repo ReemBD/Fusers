@@ -10,27 +10,16 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@default/*": [
-        "apps/fmr-fusers/src/app/*"
-      ],
-      "@env/*": [
-        "apps/fmr-fusers/src/environments/*"
-      ],
-      "@fusers/*": [
-        "libs/*"
-      ]
-    },
+      "@default/*": ["apps/fmr-fusers/src/app/*"],
+      "@env/*": ["apps/fmr-fusers/src/environments/*"],
+      "@fusers/*": ["libs/*"],
+      "@fusers/core/http-client": ["libs/core/http-client/src/index.ts"],
+    }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
