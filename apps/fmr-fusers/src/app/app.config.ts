@@ -10,6 +10,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { API_URL } from '@fusers/core/http-client';
 
 import { environment } from '@env/environment';
+import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,5 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideHttpClient(),
     { provide: API_URL, useValue: environment.API_URL },
-  ],
+    provideStore()
+],
 };
