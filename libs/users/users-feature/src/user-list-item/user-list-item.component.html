@@ -19,13 +19,6 @@
     </div>
     <div class="flex items-center space-x-2">
       <button
-        (click)="editUser.emit(user())"
-        class="text-gray-400 hover:text-blue-600 transition-colors duration-150 p-1 rounded"
-        title="Edit user"
-      >
-        <mat-icon class="text-lg">edit</mat-icon>
-      </button>
-      <button
         (click)="deleteUser.emit(user())"
         class="text-gray-400 hover:text-red-600 transition-colors duration-150 p-1 rounded"
         title="Delete user"

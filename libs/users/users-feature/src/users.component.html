@@ -1,27 +1,109 @@
-<div class="bg-gray-50 py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    @if (isLoading()) {
-    <div class="flex justify-center items-center py-12">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 class="text-xl font-bold text-gray-900">User Management</h1>
+          <p class="mt-0.5 text-sm text-gray-600">Manage users and their information</p>
+        </div>
+        <div class="mt-3 sm:mt-0">
+          <button 
+            class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+            (click)="showAdd.set(!showAdd())">
+            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Add User
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    @if (isLoading()) {
+      <div class="flex justify-center items-center py-8">
+        <div class="flex flex-col items-center space-y-3">
+          <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+          <p class="text-gray-600 text-sm">Loading users...</p>
+        </div>
+      </div>
     }
 
-    @if(!isLoading()) {
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-1">
-        <fusers-users-list 
-          [users]="users()"
-          [selectedUserId]="selectedUserId()"
-          (userSelect)="onUserSelect($event)"
-          (editUser)="onEditUser($event)"
-          (deleteUser)="onDeleteUser($event)"
-        />
-      </div>
+    @if (!isLoading()) {
+      <!-- Add User Form (Conditional) -->
+      @if (showAdd()) {
+        <div class="mb-4 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+            <h2 class="text-base font-medium text-gray-900">Add New User</h2>
+          </div>
+          <div class="p-4">
+            <fusers-user-edit (save)="onEditUser($event)" />
+          </div>
+        </div>
+      }
 
-      <div class="lg:col-span-2">
-        <fusers-user-orders />
+      <!-- Main Grid Layout -->
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <!-- Users List Panel -->
+        <div class="xl:col-span-4">
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+              <h2 class="text-base font-medium text-gray-900">Users</h2>
+              <p class="mt-0.5 text-xs text-gray-600">{{ users().length }} total users</p>
+            </div>
+            <div class="p-0">
+              <fusers-users-list 
+                [users]="users()" 
+                [selectedUserId]="selectedUserId()" 
+                (userSelect)="onUserSelect($event)"
+                (deleteUser)="onDeleteUser($event)" />
+            </div>
+          </div>
+        </div>
+
+        <!-- User Details Panel -->
+        <div class="xl:col-span-8">
+          @if (selectedUser()) {
+            <div class="space-y-4">
+              <!-- User Orders Section -->
+              <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+                  <h2 class="text-base font-medium text-gray-900">User Orders</h2>
+                  <p class="mt-0.5 text-xs text-gray-600">Order history for {{ selectedUser()?.name }}</p>
+                </div>
+                <div class="p-4">
+                  <fusers-user-orders />
+                </div>
+              </div>
+
+              <!-- User Edit Section -->
+              <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+                  <h2 class="text-base font-medium text-gray-900">Edit User</h2>
+                  <p class="mt-0.5 text-xs text-gray-600">Update user information</p>
+                </div>
+                <div class="p-4">
+                  <fusers-user-edit [user]="selectedUser()" (save)="onEditUser($event)" />
+                </div>
+              </div>
+            </div>
+          } @else {
+            <!-- Empty State -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <div class="px-4 py-8 text-center">
+                <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <h3 class="mt-3 text-base font-medium text-gray-900">No user selected</h3>
+                <p class="mt-1 text-sm text-gray-600">Select a user from the list to view their details and orders.</p>
+              </div>
+            </div>
+          }
+        </div>
       </div>
-    </div>
     }
   </div>
 </div>

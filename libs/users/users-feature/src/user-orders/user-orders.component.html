@@ -1,96 +1,19 @@
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900">User Orders</h1>
     </div>
 
-    @if (selectedUser(); as user) {
-      <div class="bg-white rounded-lg shadow-md">
-        <div class="p-6 border-b border-gray-200">
-          <div class="flex items-center space-x-4">
-            <fusers-user-avatar [user]="user" />
-            <div class="flex-1">
-              <h2 class="text-2xl font-bold text-gray-900">{{ user.name }}</h2>
-              <p class="text-gray-600">{{ user.email }}</p>
-            </div>
-            <div class="flex space-x-2">
-              <button
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-150 text-sm font-medium">
-                Edit User
-              </button>
-              <button
-                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-150 text-sm font-medium">
-                Delete User
-              </button>
-            </div>
-          </div>
-        </div>
+    @if (vm().name; as name) {
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900">Orders for {{ name }}</h2>
+    </div>
+    }
 
-        <div class="p-6 border-b border-gray-200">
-          <div class="grid grid-cols-3 gap-4">
-            <div class="bg-gray-50 rounded-lg p-4 text-center">
-              <div class="text-2xl font-bold text-gray-900">{{ userOrders().length }}</div>
-              <div class="text-sm text-gray-600">Total Orders</div>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-4 text-center">
-              <div class="text-2xl font-bold text-green-600">
-                ${{ totalSpent() | number:'1.0-2' }}
-              </div>
-              <div class="text-sm text-gray-600">Total Spent</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-semibold text-gray-900">Order History</h3>
-            <span class="text-sm text-gray-500">{{ userOrders().length }} orders</span>
-          </div>
-
-          @if (userOrders().length > 0) {
-            <div class="space-y-4">
-              @for (order of userOrders(); track order.id) {
-                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-150">
-                  <div class="flex items-center justify-between">
-                    <div class="flex-1">
-                      <div class="flex items-center space-x-3 mb-2">
-                        <span class="text-sm font-medium text-gray-900">Order #{{ order.id }}</span>
-                        <span class="px-2 py-1 text-xs font-medium rounded-full" [ngClass]="getStatusClasses(order.status)">
-                          {{ order.status }}
-                        </span>
-                      </div>
-                      <p class="text-sm text-gray-600">
-                        {{ order.createdAt | date:'MMM dd, yyyy' }}
-                      </p>
-                    </div>
-                    <div class="text-right">
-                      <div class="text-lg font-bold text-gray-900">
-                        ${{ order.amount | number:'1.0-2' }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              }
-            </div>
-          } @else {
-            <div class="text-center py-12">
-              <div class="text-gray-400 mb-4">
-                <mat-icon class="text-5xl">shopping_cart</mat-icon>
-              </div>
-              <h3 class="text-lg font-medium text-gray-900 mb-2">No Orders Found</h3>
-              <p class="text-gray-500 text-sm">This user hasn't placed any orders yet.</p>
-            </div>
-          }
-        </div>
-      </div>
-    } @else {
-      <div class="bg-white rounded-lg shadow-md p-8 text-center">
-        <div class="text-gray-400 mb-4">
-          <mat-icon class="text-5xl">person</mat-icon>
-        </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">No User Selected</h3>
-        <p class="text-gray-500 text-sm">Select a user from the list to view their orders.</p>
-      </div>
+    @if (vm().totalSpent; as totalSpent) {
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900">Total spent: {{ totalSpent }}</h2>
+    </div>
     }
   </div>
 </div>

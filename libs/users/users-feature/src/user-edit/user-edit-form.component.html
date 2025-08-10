@@ -1,0 +1,21 @@
+<form [formGroup]="form">
+    <div class="mb-4">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" />
+        </mat-form-field>
+    </div>
+    <div class="mb-4">
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+        </mat-form-field>
+    </div>
+    <div class="mb-4">
+        <mat-form-field>
+            <mat-label>Phone</mat-label>
+            <input matInput formControlName="phone" />
+        </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+</form>

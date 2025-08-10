@@ -1,20 +1,19 @@
 <div class="bg-white rounded-lg shadow-md">
-  <div class="px-6 py-4 border-b border-gray-200">
-    <h2 class="text-xl font-semibold text-gray-800">Users</h2>
-    <p class="text-sm text-gray-600 mt-1">{{ users().length }} users found</p>
-  </div>
 
   <ul class="divide-y divide-gray-200">
     <li>
       @for (user of users(); track user.id) {
-      <fusers-user-list-item [user]="user" [isSelected]="selectedUserId() === user.id"
-        (userSelect)="this.userSelect.emit($event)" (editUser)="this.editUser.emit($event)"
-        (deleteUser)="this.deleteUser.emit($event)" />
+        <fusers-user-list-item
+          [user]="user"
+          [isSelected]="selectedUserId() === user.id"
+          (userSelect)="this.userSelect.emit($event)"
+          (deleteUser)="this.deleteUser.emit($event)"
+        />
       }
     </li>
   </ul>
 
-  @if (users().length === 0) {
+  @if (!users().length) {
     <div class="px-6 py-8 text-center">
       <div class="text-gray-400 mb-4">
         <mat-icon class="text-5xl">people</mat-icon>

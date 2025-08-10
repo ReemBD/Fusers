@@ -1,13 +1,13 @@
 import { patchState, signalStore, withMethods, withState, withComputed } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { createEntityAdapter, EntityState } from "@ngrx/entity";
+import { createEntityAdapter, Dictionary, EntityState } from "@ngrx/entity";
 
 import { Order, User } from "@fusers/core/api-types";
 import { setLoaded, setLoading, withCallState } from "@fusers/core/data-access";
 
-import { inject } from "@angular/core";
+import { computed, inject } from "@angular/core";
 import { UserService } from "./user.service";
-import { delay, pipe, switchMap, combineLatest, tap } from "rxjs";
+import { delay, pipe, switchMap, combineLatest, tap, of } from "rxjs";
 import { OrdersService } from "./order.service";
 import { tapResponse } from "@ngrx/operators";
 
@@ -38,14 +38,20 @@ const initialState: UserStoreState = {
 export const UsersStore = signalStore(
     { providedIn: 'root' },
     withState(initialState),
-    withComputed((state) => ({
+    withComputed((state) =>({
         userEntities: () => state.users.ids().map(id => state.users.entities()[id]) as User[],
-        selectedUser: () => {
-            const selectedId = state.selectedUserId();
-            const entities = state.users.entities();
-            return selectedId ? entities[selectedId] || null : null;
-        },
         orderEntities: () => state.orders.ids().map(id => state.orders.entities()[id]) as Order[],
+        selectedUserOrders: () => Object.values(state.orders.entities()).filter(order => order?.userId === state.selectedUserId()) as Order[],
+        userOrdersVm: () => {
+            const user = state.users.entities()[state.selectedUserId() || ''];
+            
+            return {
+                name: user?.name,
+                totalSpent: Object.values(state.orders.entities())
+                    .filter(order => order?.userId === state.selectedUserId())
+                    .reduce((total, order) => total + (order?.amount || 0), 0),
+            };
+        }
     })),
     withMethods((store, userService = inject(UserService), ordersService = inject(OrdersService)) => ({
         loadUsers: rxMethod<void>(
@@ -72,6 +78,14 @@ export const UsersStore = signalStore(
                             }
                         })
                     );
+                })
+            )
+        ),
+
+        getUserById: rxMethod<string>(
+            pipe(
+                switchMap((userId) => {
+                    return userService.getUserById(userId);
                 })
             )
         ),
@@ -106,6 +120,7 @@ export const UsersStore = signalStore(
                 })
             )
         ),
+
         removeUser: rxMethod<string>(
             pipe(
                 switchMap((userId) => {
@@ -122,17 +137,6 @@ export const UsersStore = signalStore(
         selectUser: (userId: string | null) => {
             patchState(store, { selectedUserId: userId });
         },
-
-        getUserOrders: (userId: string) => {
-            const orders: Order[] = [];
-            for (const orderId in store.orderEntities()) {
-                const order = store.orderEntities()[orderId] as Order;
-                if (order.userId === userId) {
-                    orders.push(order);
-                }
-            }
-            return orders;
-        }
     })),
     withCallState({ collection: 'loadUsers' }),
 );

@@ -19,6 +19,5 @@ export class UserListItemComponent {
   isSelected = input<boolean>(false);
   
   userSelect = output<string>();
-  editUser = output<User>();
   deleteUser = output<User>();
 }
