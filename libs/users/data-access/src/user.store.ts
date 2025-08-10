@@ -7,7 +7,7 @@ import { setLoaded, setLoading, withCallState } from "@fusers/core/data-access";
 
 import { inject } from "@angular/core";
 import { UserService } from "./user.service";
-import { delay, pipe, switchMap, catchError, of, map, combineLatest, tap } from "rxjs";
+import { delay, pipe, switchMap, of, combineLatest } from "rxjs";
 import { OrdersService } from "./order.service";
 import { tapResponse } from "@ngrx/operators";
 
@@ -168,10 +168,11 @@ export const UsersStore = signalStore(
         },
 
         getUserOrders: (userId: string) => {
-            let orders = [];
+            const orders: Order[] = [];
             for (const orderId in store.orderEntities()) {
-                if (store.orderEntities()[orderId]?.userId === userId) {
-                    orders.push(store.orderEntities()[orderId]);
+                const order = store.orderEntities()[orderId] as Order;
+                if (order.userId === userId) {
+                    orders.push(order);
                 }
             }
             return orders;
