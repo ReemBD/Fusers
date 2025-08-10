@@ -17,12 +17,14 @@
     "paths": {
       "@default/*": ["apps/fmr-fusers/src/app/*"],
       "@env/*": ["apps/fmr-fusers/src/environments/*"],
+      "@fusers/*": ["libs/*"],
+      "@fusers/ui/header": ["ui/header/src/index.ts"],
       "@fusers/core/api-types": ["libs/core/api-types/src/index.ts"],
       "@fusers/core/data-access": ["libs/core/data-access/src/index.ts"],
-      "@fusers/users/data-access": ["libs/users/data-access/src/index.ts"],
       "@fusers/core/http-client": ["libs/core/http-client/src/index.ts"],
-      "@fusers/users/users": ["libs/users/users-feature/src/index.ts"],
-      "@fusers/*": ["libs/*"]
+      "@fusers/core/event-bus": ["libs/core/event-bus/src/index.ts"],
+      "@fusers/users/data-access": ["libs/users/data-access/src/index.ts"],
+      "@fusers/users/users": ["libs/users/users-feature/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

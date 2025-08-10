@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+
 import { User } from '@fusers/core/api-types';
+
 import { UserListItemComponent } from '../user-list-item/user-list-item.component';
 
 @Component({

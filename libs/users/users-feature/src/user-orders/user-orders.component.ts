@@ -21,7 +21,7 @@ export class UserOrdersComponent {
 
   readonly selectedUserId = this.store.selectedUserId;
   // No. 6 in pdf solution.
-  // this works because switchMap automatically cancels the previous subscription when the new value is emitted.
+  // this works because switchMap automatically cancels the previous subscription when a new value is emitted.
   readonly selectedUserId$ = toObservable(this.selectedUserId);
   readonly selectedUserDetails = toSignal(
     this.selectedUserId$.pipe(

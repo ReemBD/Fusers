@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 
 import { User } from '@fusers/core/api-types';
 import { UsersStore } from '@fusers/users/data-access';
@@ -7,6 +8,7 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { UserOrdersComponent } from './user-orders/user-orders.component';
 
 import { UserEditFormComponent } from './user-edit/user-edit-form.component';
+import { EVENT_TYPES, EventBusService } from '@fusers/core/event-bus';
 
 @Component({
   selector: 'fusers-users',
@@ -15,8 +17,11 @@ import { UserEditFormComponent } from './user-edit/user-edit-form.component';
   templateUrl: './users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
+  
   private readonly store = inject(UsersStore);
+  
+  private readonly destroy$ = new Subject<void>();
 
   readonly users = this.store.userEntities;
   readonly isLoading = this.store.loadUsersLoading;
@@ -24,10 +29,17 @@ export class UsersComponent implements OnInit {
 
   readonly selectedUser = computed(() => this.store.userEntities().find(user => user.id === this.selectedUserId()));
   
-  readonly showAdd = signal(false);
+  readonly eventBus = inject(EventBusService);
   
+  readonly addModalShown = signal(false);
+
   ngOnInit(): void {
     this.store.loadUsers();
+    this.eventBus.getEventStream(EVENT_TYPES.ADD_MODAL_CLICK)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.addModalShown.set(!this.addModalShown());
+      })
   }
 
   onUserSelect(userId: string): void {
@@ -44,5 +56,10 @@ export class UsersComponent implements OnInit {
 
   onDeleteUser(user: User): void {
     this.store.removeUser(user.id);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
