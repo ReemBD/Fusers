@@ -3,25 +3,21 @@
     <h2 class="text-xl font-semibold text-gray-800">Users</h2>
     <p class="text-sm text-gray-600 mt-1">{{ users().length }} users found</p>
   </div>
-  
-  <div class="divide-y divide-gray-200">
-    @for (user of users(); track user.id) {
-      <fusers-user-list-item
-        [user]="user"
-        [isSelected]="selectedUserId() === user.id"
-        (userSelect)="onUserSelect($event)"
-        (editUser)="onEditUser($event)"
-        (deleteUser)="onDeleteUser($event)"
-      />
-    }
-  </div>
-  
+
+  <ul class="divide-y divide-gray-200">
+    <li>
+      @for (user of users(); track user.id) {
+      <fusers-user-list-item [user]="user" [isSelected]="selectedUserId() === user.id"
+        (userSelect)="this.userSelect.emit($event)" (editUser)="this.editUser.emit($event)"
+        (deleteUser)="this.deleteUser.emit($event)" />
+      }
+    </li>
+  </ul>
+
   @if (users().length === 0) {
     <div class="px-6 py-8 text-center">
       <div class="text-gray-400 mb-4">
-        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-        </svg>
+        <mat-icon class="text-5xl">people</mat-icon>
       </div>
       <p class="text-gray-500 text-sm">No users found</p>
     </div>

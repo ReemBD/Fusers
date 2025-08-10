@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+
 import { User } from '@fusers/core/api-types';
+
+import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 
 @Component({
   selector: 'fusers-user-list-item',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule, UserAvatarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-list-item.component.html',
   styleUrls: ['./user-list-item.component.css']
@@ -17,18 +21,4 @@ export class UserListItemComponent {
   userSelect = output<string>();
   editUser = output<User>();
   deleteUser = output<User>();
-
-  onUserSelect(): void {
-    this.userSelect.emit(this.user().id);
-  }
-
-  onEditUser(event: Event): void {
-    event.stopPropagation();
-    this.editUser.emit(this.user());
-  }
-
-  onDeleteUser(event: Event): void {
-    event.stopPropagation();
-    this.deleteUser.emit(this.user());
-  }
 }

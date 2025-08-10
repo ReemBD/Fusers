@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { User } from '@fmr-fusers/core/api-types';
+import { User } from '@fusers/core/api-types';
 
 const users: User[] = [
   {
@@ -53,56 +53,6 @@ const users: User[] = [
     name: 'Amanda Rodriguez',
     email: 'amanda.rodriguez@example.com'
   },
-  {
-    id: '11',
-    name: 'James Lopez',
-    email: 'james.lopez@example.com'
-  },
-  {
-    id: '12',
-    name: 'Michelle Gonzalez',
-    email: 'michelle.gonzalez@example.com'
-  },
-  {
-    id: '13',
-    name: 'Daniel Perez',
-    email: 'daniel.perez@example.com'
-  },
-  {
-    id: '14',
-    name: 'Jessica Torres',
-    email: 'jessica.torres@example.com'
-  },
-  {
-    id: '15',
-    name: 'Matthew Flores',
-    email: 'matthew.flores@example.com'
-  },
-  {
-    id: '16',
-    name: 'Nicole Rivera',
-    email: 'nicole.rivera@example.com'
-  },
-  {
-    id: '17',
-    name: 'Andrew Collins',
-    email: 'andrew.collins@example.com'
-  },
-  {
-    id: '18',
-    name: 'Stephanie Stewart',
-    email: 'stephanie.stewart@example.com'
-  },
-  {
-    id: '19',
-    name: 'Kevin Morris',
-    email: 'kevin.morris@example.com'
-  },
-  {
-    id: '20',
-    name: 'Rachel Cooper',
-    email: 'rachel.cooper@example.com'
-  }
 ];
 
 @Injectable()
