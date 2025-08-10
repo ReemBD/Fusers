@@ -17,8 +17,8 @@ export class UserService {
         return this.#apiService.get<User>(`/users/${id}`);
     }
 
-    createUser(user: User) {
-        return this.#apiService.post<User, User>('/users', user);
+    createUser(user: Omit<User, 'id'>) {
+        return this.#apiService.post<User, Omit<User, 'id'>>('/users', user);
     }
 
     updateUser(id: string, user: User) {
