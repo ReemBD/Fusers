@@ -1,0 +1,21 @@
+{
+  "name": "fmr-fusers-api-types",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/api-types/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/core/api-types",
+        "main": "libs/core/api-types/src/index.ts",
+        "tsConfig": "libs/core/api-types/tsconfig.lib.json",
+        "assets": ["libs/core/api-types/*.md"],
+        "format": ["cjs"],
+        "generatePackageJson": true
+      }
+    }
+  }
+}

@@ -18,8 +18,9 @@
       "@default/*": ["apps/fmr-fusers/src/app/*"],
       "@env/*": ["apps/fmr-fusers/src/environments/*"],
       "@fusers/*": ["libs/*"],
+      "@fmr-fusers/core/api-types": ["libs/core/api-types/src/index.ts"],
       "@fusers/core/http-client": ["libs/core/http-client/src/index.ts"],
-      "@fusers/users/users": ["libs/users/users-feature/src/index.ts"],
+      "@fusers/users/users": ["libs/users/users-feature/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
