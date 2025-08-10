@@ -7,7 +7,7 @@ import { setLoaded, setLoading, withCallState } from "@fusers/core/data-access";
 
 import { inject } from "@angular/core";
 import { UserService } from "./user.service";
-import { delay, pipe, switchMap, of, combineLatest } from "rxjs";
+import { delay, pipe, switchMap, combineLatest, tap } from "rxjs";
 import { OrdersService } from "./order.service";
 import { tapResponse } from "@ngrx/operators";
 
@@ -39,13 +39,13 @@ export const UsersStore = signalStore(
     { providedIn: 'root' },
     withState(initialState),
     withComputed((state) => ({
-        userEntities: () => state.users.entities(),
+        userEntities: () => state.users.ids().map(id => state.users.entities()[id]) as User[],
         selectedUser: () => {
             const selectedId = state.selectedUserId();
             const entities = state.users.entities();
             return selectedId ? entities[selectedId] || null : null;
         },
-        orderEntities: () => state.orders.entities(),
+        orderEntities: () => state.orders.ids().map(id => state.orders.entities()[id]) as Order[],
     })),
     withMethods((store, userService = inject(UserService), ordersService = inject(OrdersService)) => ({
         loadUsers: rxMethod<void>(
@@ -53,6 +53,7 @@ export const UsersStore = signalStore(
                 switchMap(() => {
                     patchState(store, { ...setLoading('loadUsers') as any });
                     return combineLatest([userService.getUsers(), ordersService.getOrders()]).pipe(
+                        // Mock loading time
                         delay(1000),
                         tapResponse({
                             next: ([users, orders]) => {
@@ -78,24 +79,12 @@ export const UsersStore = signalStore(
         addUser: rxMethod<Omit<User, 'id'>>(
             pipe(
                 switchMap((userData) => {
-                    const newUser = { ...userData, id: Date.now().toString() };
-                    patchState(store, {
-                        users: userAdapter.addOne(newUser, store.users())
-                    });
-                    return userService.createUser(newUser).pipe(
-                        delay(1000),
-                        tapResponse({
-                            next: (createdUser) => {
-                                patchState(store, {
-                                    users: userAdapter.addOne(createdUser, store.users())
-                                });
-                            },
-                            error: (error) => {
-                                patchState(store, {
-                                    users: userAdapter.removeOne(newUser.id, store.users())
-                                });
-                            }
-                        })
+                    return userService.createUser(userData).pipe(
+                        tap((createdUser) => {
+                            patchState(store, {
+                                users: userAdapter.addOne(createdUser, store.users())
+                            });
+                        }),
                     );
                 })
             )
@@ -104,65 +93,32 @@ export const UsersStore = signalStore(
         updateUser: rxMethod<User>(
             pipe(
                 switchMap((user) => {
-                    patchState(store, {
-                        users: userAdapter.updateOne(
-                            { id: user.id, changes: user },
-                            store.users()
-                        )
-                    });
                     return userService.updateUser(user.id, user).pipe(
-                        tapResponse({
-                            next: (updatedUser) => {
-                                patchState(store, {
-                                    users: userAdapter.updateOne(
-                                        { id: user.id, changes: updatedUser },
-                                        store.users()
-                                    )
-                                });
-                            },
-                            error: (error) => {
-                                patchState(store, {
-                                    users: userAdapter.updateOne(
-                                        { id: user.id, changes: user },
-                                        store.users()
-                                    )
-                                });
-                            }
-                        })
+                        tap((updatedUser) => {
+                            patchState(store, {
+                                users: userAdapter.updateOne(
+                                    { id: user.id, changes: updatedUser },
+                                    store.users()
+                                )
+                            });
+                        }),
                     );
                 })
             )
         ),
-
         removeUser: rxMethod<string>(
             pipe(
                 switchMap((userId) => {
-                    const user = store.userEntities()[userId];
-                    if (!user) return of(false);
-
-                    const userToRestore = { ...user };
-                    patchState(store, {
-                        users: userAdapter.removeOne(userId, store.users())
-                    });
-
                     return userService.deleteUser(userId).pipe(
-                        tapResponse({
-                            next: () => {
-                                patchState(store, {
-                                    users: userAdapter.removeOne(userId, store.users())
-                                });
-                            },
-                            error: (error) => {
-                                patchState(store, {
-                                    users: userAdapter.addOne(userToRestore, store.users())
-                                });
-                            }
-                        })
+                        tap(() => {
+                            patchState(store, {
+                                users: userAdapter.removeOne(userId, store.users())
+                            });
+                        }),
                     );
                 })
             )
         ),
-
         selectUser: (userId: string | null) => {
             patchState(store, { selectedUserId: userId });
         },
