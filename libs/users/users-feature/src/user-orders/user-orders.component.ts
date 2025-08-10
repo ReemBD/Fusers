@@ -1,33 +1,34 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { User, Order } from '@fusers/core/api-types';
+
 import { UsersStore } from '@fusers/users/data-access';
+
+import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 
 @Component({
   selector: 'fusers-user-orders',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, UserAvatarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-orders.component.html',
   styleUrls: ['./user-orders.component.css']
 })
 export class UserOrdersComponent {
-  protected readonly store = inject(UsersStore);
+  readonly store = inject(UsersStore);
 
-  // Computed properties based on store state
-  protected readonly selectedUser = computed(() => this.store.selectedUser());
-  protected readonly userOrders = computed(() => {
+  readonly selectedUser = this.store.selectedUser;
+
+  readonly userOrders = computed(() => {
     const user = this.selectedUser();
     if (!user) return [];
     return this.store.getUserOrders(user.id);
   });
-
-  protected readonly totalSpent = computed(() => {
+  readonly totalSpent = computed(() => {
     return this.userOrders().reduce((total, order) => total + (order?.amount || 0), 0);
   });
 
-  protected getStatusClasses(status: string): string {
+  getStatusClasses(status: string): string {
     switch (status) {
       case 'completed':
         return 'bg-green-100 text-green-800';
