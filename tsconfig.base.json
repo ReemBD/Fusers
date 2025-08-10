@@ -17,18 +17,17 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
-  },
-  "paths": {
-    "@default/*": [
-      "apps/fmr-fusers/src/app/*"
-    ],
-    "@env/*": [
-      "apps/fmr-fusers/src/environments/*"
-    ],
-    "@fusers/*": [
-      "libs/*"
-    ]
+    "paths": {
+      "@default/*": [
+        "apps/fmr-fusers/src/app/*"
+      ],
+      "@env/*": [
+        "apps/fmr-fusers/src/environments/*"
+      ],
+      "@fusers/*": [
+        "libs/*"
+      ]
+    },
   },
   "exclude": [
     "node_modules",
