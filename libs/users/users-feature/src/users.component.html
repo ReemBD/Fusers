@@ -18,7 +18,7 @@
             <h2 class="text-base font-medium text-gray-900">Add New User</h2>
           </div>
           <div class="p-4">
-            <fusers-user-edit (save)="onEditUser($event)" />
+            <fusers-user-edit (save)="onSaveUser($event)" />
           </div>
         </div>
       }
@@ -64,7 +64,7 @@
                   <p class="mt-0.5 text-xs text-gray-600">Update user information</p>
                 </div>
                 <div class="p-4">
-                  <fusers-user-edit [user]="selectedUser()" (save)="onEditUser($event)" />
+                  <fusers-user-edit [user]="selectedUser()" (save)="onSaveUser($event)" />
                 </div>
               </div>
             </div>

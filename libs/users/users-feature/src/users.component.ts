@@ -48,7 +48,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.selectUser(userId);
   }
 
-  onEditUser(user: User): void {
+  onSaveUser(user: User): void {
     if (user.id) {
       this.store.updateUser(user);
     } else {
