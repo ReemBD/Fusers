@@ -15,11 +15,6 @@ export class OrdersController {
     return this.ordersService.getOrderById(id);
   }
 
-  @Get('user/:userId')
-  getOrdersByUserId(@Param('userId') userId: string) {
-    return this.ordersService.getOrdersByUserId(userId);
-  }
-
   @Post()
   createOrder(@Body() orderData: { userId: string; amount: number; status?: string }) {
     return this.ordersService.createOrder(orderData);
