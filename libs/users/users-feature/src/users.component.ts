@@ -1,16 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
 
 import { User } from '@fusers/core/api-types';
 import { UsersStore } from '@fusers/users/data-access';
-
-import { MatIconModule } from '@angular/material/icon';
+import { EVENT_TYPES, EventBusService } from '@fusers/core/event-bus';
 
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserOrdersComponent } from './user-orders/user-orders.component';
-
 import { UserEditFormComponent } from './user-edit/user-edit-form.component';
-import { EVENT_TYPES, EventBusService } from '@fusers/core/event-bus';
 
 @Component({
   selector: 'fusers-users',
